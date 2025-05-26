@@ -15,7 +15,8 @@ def index(request):
                     'pk':field.pk,
                 }
             )
-            return render(request,"tasks/index.html",{'context':context})
+        print(context)
+        return render(request,"tasks/index.html",{'context':context})
     return render(request,"tasks/index.html")
 
 def create(request):
