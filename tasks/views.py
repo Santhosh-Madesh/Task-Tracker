@@ -1,7 +1,35 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .forms import TaskForm
+from .models import TaskModel
 
 def index(request):
+    t = TaskModel.objects.all()
+    if t:
+        context=[]
+        for field in t:
+            context.append(
+                {
+                    'title':field.title,
+                    'content':field.content,
+                    'deadline':field.deadline,
+                    'pk':field.pk,
+                }
+            )
+            return render(request,"tasks/index.html",{'context':context})
     return render(request,"tasks/index.html")
 
 def create(request):
-    return render(request,"tasks/create.html")
+    if request.method == "POST":
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            content = form.cleaned_data['content']
+            deadline = form.cleaned_data['deadline']
+            t = TaskModel(title=title,content=content,deadline=deadline)
+            t.save()
+            return redirect('index')
+    form = TaskForm()
+    return render(request,"tasks/create.html",{'form':form})
+
+def about(request):
+    return render(request,"tasks/about.html")
