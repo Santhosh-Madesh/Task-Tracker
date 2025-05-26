@@ -1,30 +1,31 @@
 from django.shortcuts import render, redirect
 from .forms import TaskForm
-from .models import TaskModel
+from .models import TaskModel, CompleteTaskModel
 
 def index(request):
     t = TaskModel.objects.all()
     if t:
         context=[]
         for field in t:
-            if field.is_overdue():
-                context.append(
-                {
-                    'title':field.title,
-                    'content':field.content,
-                    'deadline':field.deadline,
-                    'pk':field.pk,
-                    'overdue':'Overdue',
-                })
-            else:
-                context.append(
-                    {
-                    'title':field.title,
-                    'content':field.content,
-                    'deadline':field.deadline,
-                    'pk':field.pk,
-                    }
-                )
+            if field.completed ==None:
+                if field.is_overdue():
+                    context.append(
+                        {
+                            'title':field.title,
+                            'content':field.content,
+                            'deadline':field.deadline,
+                            'pk':field.pk,
+                            'overdue':'Overdue',
+                        })
+                else:
+                    context.append(
+                        {
+                            'title':field.title,
+                            'content':field.content,
+                            'deadline':field.deadline,
+                            'pk':field.pk,
+                            }
+                            )
         return render(request,"tasks/index.html",{'context':context})
     return render(request,"tasks/index.html")
 
@@ -69,4 +70,7 @@ def delete(request,pk):
     return redirect('index')
 
 def complete(request,pk):
-    return None
+    t = TaskModel.objects.get(pk=pk)
+    t.completed=True
+    t.save()    
+    return redirect('index')
