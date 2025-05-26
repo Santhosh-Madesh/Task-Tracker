@@ -6,6 +6,21 @@
     <title>{% block title %}Home Page{% endblock title %}</title>
 </head>
 <body>
-    
+    <nav>
+        <a href="{% url 'index' %}">Home</a>
+        <a href="{% url 'create' %}">Create Task</a>
+        <a href="{% url 'about' %}">About</a>
+    </nav><br>
+    {% block content %}
+      {% if context %}
+        {% for data in context %}
+          {{data.title}}(<a href="">update</a>|<a href="">delete</a>)<br>
+          {{data.content}}<br>
+          your deadline : {{data.deadline}}<br>
+        {% endfor %}
+      {% else %}
+        <p>No tasks yet. wanna add one? <a href="{% url 'create' %}">add a task</a></p>
+      {% endif %}
+    {% endblock content %}
 </body>
 </html>
