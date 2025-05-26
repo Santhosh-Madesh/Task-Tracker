@@ -1,5 +1,5 @@
 from django.db import models
-from datetime import datetime
+from datetime import date
 
 class TaskModel(models.Model):
     title = models.CharField()
@@ -8,4 +8,4 @@ class TaskModel(models.Model):
     completed = models.BooleanField(null=True)
 
     def is_overdue(self):
-        return datetime.now()<self.deadline
+        return date.today()>self.deadline
