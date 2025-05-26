@@ -14,7 +14,7 @@
     {% block content %}
       {% if context %}
         {% for data in context %}<br>
-          {{data.title}}(<a href="{% url 'update' %}">update</a>|<a href="{% url 'delete' %}">delete</a>|<a href="{% url 'complete' data.pk %}">complete</a>) <br>
+          {{data.title}}(<a href="{% url 'update' data.pk %}">update</a>|<a href="{% url 'delete' data.pk %}">delete</a>|<a href="{% url 'complete' data.pk %}">complete</a>) <br>
           {{data.content}}<br>
           your deadline : {{data.deadline}}<br>
         {% endfor %}
