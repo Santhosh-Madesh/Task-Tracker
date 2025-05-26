@@ -1,0 +1,9 @@
+{% extends 'tasks/index.html' %}
+{% block title %}Updation Page{% endblock title %}
+{% block content %}
+  <form action="{% url 'update' pk %}" method="post">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" value="update">
+  </form>
+  {% endblock content %}
