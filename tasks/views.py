@@ -15,7 +15,6 @@ def index(request):
                     'pk':field.pk,
                 }
             )
-        print(context)
         return render(request,"tasks/index.html",{'context':context})
     return render(request,"tasks/index.html")
 
@@ -34,3 +33,28 @@ def create(request):
 
 def about(request):
     return render(request,"tasks/about.html")
+
+def update(request,pk):
+    if request.method == "POST":
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            content = form.cleaned_data['content']
+            deadline = form.cleaned_data['deadline']
+            t = TaskModel.objects.get(pk=pk)
+            t.delete()
+            t = TaskModel(title=title,content=content,deadline=deadline)
+            t.save()
+            return redirect('index')
+    t = TaskModel.objects.get(pk=pk)
+    title = t.title
+    content = t.content
+    deadline = t.deadline
+    form = TaskForm(initial={"title":title,"content":content,"deadline":deadline})
+    return render(request,"tasks/update.html",{'form':form,"pk":pk})
+
+def delete(request,pk):
+    return None
+
+def complete(request,pk):
+    return None
