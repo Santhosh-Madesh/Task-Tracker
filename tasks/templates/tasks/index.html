@@ -14,9 +14,16 @@
     {% block content %}
       {% if context %}
         {% for data in context %}<br>
-          {{data.title}}(<a href="{% url 'update' data.pk %}">update</a>|<a href="{% url 'delete' data.pk %}">delete</a>|<a href="{% url 'complete' data.pk %}">complete</a>) <br>
-          {{data.content}}<br>
-          your deadline : {{data.deadline}}<br>
+          {% if data.overdue %}
+
+            {{data.title}}(<a href="{% url 'update' data.pk %}">update</a>|<a href="{% url 'delete' data.pk %}">delete</a>|<a href="{% url 'complete' data.pk %}">complete</a>)[{{data.overdue}}] <br>
+            {{data.content}}<br>
+            your deadline : {{data.deadline}}<br>
+          {% else %}
+            {{data.title}}(<a href="{% url 'update' data.pk %}">update</a>|<a href="{% url 'delete' data.pk %}">delete</a>|<a href="{% url 'complete' data.pk %}">complete</a>) <br>
+            {{data.content}}<br>
+            your deadline : {{data.deadline}}<br>
+          {% endif %}
         {% endfor %}
       {% else %}
         <p>No tasks yet. wanna add one? <a href="{% url 'create' %}">add a task</a></p>
