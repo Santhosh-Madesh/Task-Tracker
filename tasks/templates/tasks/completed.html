@@ -1,0 +1,12 @@
+{% extends 'tasks/index.html' %}
+{% block title %}Completed tasks{% endblock title %}
+{% block content %}
+  {% if context %}
+    {% for data in context %}<br>
+      {{data.title}}<br>
+      {{data.content}}<br>
+    {% endfor %}
+  {% else %}
+    <p>No completed tasks yet.</p>
+  {% endif %}
+{% endblock content %}
