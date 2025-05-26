@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import TaskForm
-from .models import TaskModel, CompleteTaskModel
+from .models import TaskModel
 
 def index(request):
     t = TaskModel.objects.all()
@@ -74,3 +74,17 @@ def complete(request,pk):
     t.completed=True
     t.save()    
     return redirect('index')
+
+def completed_list(request):
+    cl = TaskModel.objects.filter(completed=True)
+    if cl:
+        context = []
+        for data in cl:
+            context.append(
+                {
+                    'title':data.title,
+                    'content':data.content,
+                }
+            )
+
+        return render(request,"tasks/completed.html",{'context':context})
