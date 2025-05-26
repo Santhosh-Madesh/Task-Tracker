@@ -1,3 +1,6 @@
 from django.db import models
 
-# Create your models here.
+class TaskModel(models.Model):
+    title = models.CharField()
+    content = models.CharField()
+    deadline = models.DateField()
