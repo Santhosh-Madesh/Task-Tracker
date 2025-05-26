@@ -7,14 +7,24 @@ def index(request):
     if t:
         context=[]
         for field in t:
-            context.append(
+            if field.is_overdue():
+                context.append(
                 {
                     'title':field.title,
                     'content':field.content,
                     'deadline':field.deadline,
                     'pk':field.pk,
-                }
-            )
+                    'overdue':'Overdue',
+                })
+            else:
+                context.append(
+                    {
+                    'title':field.title,
+                    'content':field.content,
+                    'deadline':field.deadline,
+                    'pk':field.pk,
+                    }
+                )
         return render(request,"tasks/index.html",{'context':context})
     return render(request,"tasks/index.html")
 
