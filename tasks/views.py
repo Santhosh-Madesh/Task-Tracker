@@ -64,7 +64,9 @@ def update(request,pk):
     return render(request,"tasks/update.html",{'form':form,"pk":pk})
 
 def delete(request,pk):
-    return None
+    t = TaskModel.objects.get(pk=pk)
+    t.delete()
+    return redirect('index')
 
 def complete(request,pk):
     return None
